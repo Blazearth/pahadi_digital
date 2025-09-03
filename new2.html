@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Pahadi Digital Saathi - By Arth Srivastava & Bhanu Pratap Singh</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Hind:wght@400;500;700&display=swap" rel="stylesheet">
+        <style>
+            body {
+                font-family: 'Montserrat', sans-serif;
+            }
+
+            .font-hind {
+                font-family: 'Hind', sans-serif;
+            }
+
+            html {
+                scroll-behavior: smooth;
+            }
+
+            .modal-backdrop {
+                background-color: rgba(0, 0, 0, 0.6);
+            }
+
+            .modal {
+                transition: opacity 0.3s ease;
+            }
+
+            .guide-card {
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                background-size: cover;
+                background-position: center;
+            }
+
+            .guide-card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            }
+
+            .video-container {
+                position: relative;
+                padding-bottom: 56.25%;
+                /* 16:9 */
+                height: 0;
+                overflow: hidden;
+                max-width: 100%;
+                background: #000;
+            }
+
+            .video-container iframe {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+
+            .assistant-btn {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                z-index: 100;
+            }
+
+            .chat-modal {
+                position: fixed;
+                bottom: 90px;
+                right: 20px;
+                width: 90%;
+                max-width: 400px;
+                height: 500px;
+                z-index: 100;
+                transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+            }
+
+            .chat-bubble-user {
+                background-color: #3b82f6;
+                color: white;
+            }
+
+            .chat-bubble-ai {
+                background-color: #e5e7eb;
+            }
+
+            .hero-bg {
+                background-image: url('https://placehold.co/1920x1080/e0e7ff/3730a3?text=Mountains');
+                background-size: cover;
+                background-position: center;
+            }
+        </style>
+    </head>
+    <body class="bg-slate-50 text-slate-800">
+        <!-- Header -->
+        <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+            <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+                <div class="text-2xl font-bold text-slate-800 font-hind" data-key="nav_title">पहाड़ी डिजिटल साथी</div>
+                <div class="flex items-center space-x-6">
+                    <div class="hidden md:flex space-x-8 font-medium">
+                        <a href="#home" class="text-slate-600 hover:text-slate-900" data-key="nav_home">Home</a>
+                        <a href="#guides" class="text-slate-600 hover:text-slate-900" data-key="nav_guides">All Guides</a>
+                        <a href="#about" class="text-slate-600 hover:text-slate-900" data-key="nav_about">About</a>
+                    </div>
+                    <button id="language-toggle" class="p-2 rounded-full hover:bg-slate-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4.25 16a9.003 9.003 0 006.364-2.636M12 21a9.003 9.003 0 01-6.364-2.636m12.728 0A9 9 0 0012 3v0c-2.485 0-4.733.99-6.364 2.636m12.728 0l-2.828-2.828M3.636 7.636l2.828-2.828m0 0a9 9 0 0112.728 0m-12.728 0L3 5m18 16v-2m-3-3V5m-3 16v-2m-3 3V5"/>
+                        </svg>
+                    </button>
+                </div>
+            </nav>
+        </header>
+        <!-- Main Content -->
+        <main>
+            <!-- Hero Section -->
+            <section id="home" class="relative text-white hero-bg">
+                <div class="absolute inset-0 bg-slate-900/50"></div>
+                <div class="relative container mx-auto px-6 py-32 md:py-48 text-center">
+                    <h1 class="text-4xl md:text-6xl font-bold font-hind mb-4" data-key="hero_title">डिजिटल देवभूमि, प्रगति की ओर</h1>
+                    <p class="text-lg md:text-xl mb-8 max-w-3xl mx-auto" data-key="hero_subtitle">A project by Arth Srivastava and Bhanu Pratap Singh to help the people of Uttarakhand thrive with simple technology guides.</p>
+                    <a href="#guides" class="bg-orange-500 text-white font-bold py-3 px-8 rounded-full hover:bg-orange-600 transition duration-300" data-key="hero_button">Explore Guides</a>
+                </div>
+            </section>
+            <!-- Guides Section -->
+            <section id="guides" class="py-20">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-bold font-hind" data-key="guides_title">All Guides</h2>
+                        <p class="text-slate-600 mt-2" data-key="guides_subtitle">Select a category to filter the guides.</p>
+                    </div>
+                    <div class="flex justify-center flex-wrap gap-2 md:gap-4 mb-12">
+                        <button class="filter-btn bg-slate-800 text-white py-2 px-5 rounded-full" data-filter="all" data-key="filter_all">All</button>
+                        <button class="filter-btn bg-white text-slate-700 py-2 px-5 rounded-full border border-slate-200" data-filter="tourism" data-key="filter_tourism">Tourism</button>
+                        <button class="filter-btn bg-white text-slate-700 py-2 px-5 rounded-full border border-slate-200" data-filter="artisan" data-key="filter_artisan">Artisans</button>
+                        <button class="filter-btn bg-white text-slate-700 py-2 px-5 rounded-full border border-slate-200" data-filter="citizen" data-key="filter_citizen">Citizens</button>
+                        <button class="filter-btn bg-white text-slate-700 py-2 px-5 rounded-full border border-slate-200" data-filter="student" data-key="filter_student">Students</button>
+                    </div>
+                    <div id="guide-gallery" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"></div>
+                </div>
+            </section>
+            <!-- About the Founder Section -->
+            <section id="about" class="py-20 bg-white">
+                <div class="container mx-auto px-6 max-w-5xl">
+                    <div class="bg-slate-100 rounded-lg p-8 md:p-12 grid md:grid-cols-3 gap-8 items-center">
+                        <div class="md:col-span-1">
+                            <img src="https://placehold.co/500x500/cbd5e1/1e293b?text=S%26S" alt="Arth Srivastava & Bhanu Pratap Singh" class="mx-auto rounded-full shadow-lg w-48 h-48 md:w-full md:h-auto">
+                        </div>
+                        <div class="md:col-span-2 text-center md:text-left">
+                            <h2 class="text-3xl font-bold mb-2 font-hind" data-key="about_title">About the Founders</h2>
+                            <h3 class="text-2xl font-bold text-slate-700">Arth Srivastava & Bhanu Pratap Singh</h3>
+                            <p class="text-slate-600 leading-relaxed mt-4" data-key="about_text">Arth Srivastava and Bhanu Pratap Singh, residents of Dehradun, started 'Pahadi Digital Saathi' to bridge the technology gap in Uttarakhand. Witnessing the immense potential of the state's people, they developed this platform to provide easy, accessible, and relevant digital tools to empower local artisans, tourism operators, farmers, and students, helping them connect with a wider world of opportunities.
+                        </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <!-- Footer -->
+        <footer class="bg-slate-800 text-slate-400 py-10">
+            <div class="container mx-auto px-6 text-center">
+                <p class="font-bold text-white text-lg">Pahadi Digital Saathi</p>
+                <p class="text-sm mt-2" data-key="footer_credit">A Project by Arth Srivastava & Bhanu Pratap Singh</p>
+            </div>
+        </footer>
+        <!-- Guide Modal Structure -->
+        <div id="guide-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+            <div class="modal-backdrop fixed inset-0"></div>
+            <div class="modal bg-white rounded-lg shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto relative z-10">
+                <div class="p-6 md:p-8">
+                    <div class="flex justify-between items-start">
+                        <h3 id="modal-title" class="text-2xl md:text-3xl font-bold font-hind mb-4"></h3>
+                        <button id="close-modal" class="text-slate-500 hover:text-slate-800 text-3xl leading-none">&times;</button>
+                    </div>
+                    <div id="modal-video-container" class="video-container mb-6 rounded-lg"></div>
+                    <div id="modal-steps" class="space-y-6"></div>
+                    <div class="mt-8 text-center">
+                        <a id="modal-pdf" href="#" class="bg-slate-800 text-white py-2 px-6 rounded-full hover:bg-slate-900" download>Download PDF</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Gemini Digital Assistant -->
+        <button id="assistant-toggle-btn" class="assistant-btn bg-orange-500 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center text-3xl">💡</button>
+        <div id="chat-modal" class="chat-modal bg-white rounded-lg shadow-xl flex flex-col hidden">
+            <div class="p-4 border-b flex justify-between items-center bg-slate-50 rounded-t-lg">
+                <h3 class="font-bold text-lg font-hind" data-key="chat_title">💡 डिजिटल सहायक</h3>
+                <button id="close-chat-btn" class="text-slate-500 hover:text-slate-800">&times;</button>
+            </div>
+            <div class="p-2 border-b">
+                <p class="text-xs text-center text-slate-600 mb-2" data-key="chat_persona_prompt">I am a...</p>
+                <div class="flex justify-around">
+                    <button class="persona-btn bg-slate-800 text-white text-sm py-1 px-3 rounded-full" data-persona="tourism" data-key="persona_tourism">Tourism Operator</button>
+                    <button class="persona-btn bg-slate-200 text-slate-700 text-sm py-1 px-3 rounded-full" data-persona="student" data-key="persona_student">Student</button>
+                    <button class="persona-btn bg-slate-200 text-slate-700 text-sm py-1 px-3 rounded-full" data-persona="artisan" data-key="persona_artisan">Artisan</button>
+                </div>
+            </div>
+            <div id="chat-box" class="flex-1 p-4 overflow-y-auto"></div>
+            <div class="p-4 border-t">
+                <div class="flex space-x-2">
+                    <input type="text" id="chat-input" class="flex-1 border rounded-full px-4 py-2" placeholder="Ask a question...">
+                    <button id="chat-send-btn" class="bg-slate-800 text-white rounded-full w-10 h-10 flex-shrink-0 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clip-rule="evenodd"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <script>
+            const languageData = {
+                en: {
+                    nav_title: "Pahadi Digital Saathi",
+                    nav_home: "Home",
+                    nav_guides: "All Guides",
+                    nav_about: "About",
+                    nav_contact: "Contact",
+                    hero_title: "Digital Hills, Rising Futures",
+                    hero_subtitle: "A project by Arth Srivastava and Bhanu Pratap Singh to help the people of Uttarakhand thrive with simple technology guides.",
+                    hero_button: "Explore Guides",
+                    about_title: "About the Founders",
+                    about_text: "Arth Srivastava and Bhanu Pratap Singh, residents of Dehradun, started 'Pahadi Digital Saathi' to bridge the technology gap in Uttarakhand. Witnessing the immense potential of the state's people, they developed this platform to provide easy, accessible, and relevant digital tools to empower local artisans, tourism operators, farmers, and students, helping them connect with a wider world of opportunities.",
+                    guides_title: "All Guides",
+                    guides_subtitle: "Select a category to filter the guides.",
+                    filter_all: "All",
+                    filter_tourism: "Tourism",
+                    filter_artisan: "Artisans",
+                    filter_citizen: "Citizens",
+                    filter_student: "Students",
+                    contact_title: "Get In Touch",
+                    contact_subtitle: "Have a question or need a guide on a different topic? Let us know!",
+                    contact_name_placeholder: "Your Name",
+                    contact_email_placeholder: "Your Email",
+                    contact_message_placeholder: "Your Message",
+                    contact_button: "Send Message",
+                    footer_credit: "A Project by Arth Srivastava & Bhanu Pratap Singh",
+                    view_guide_button: "View Guide",
+                    modal_step: "Step",
+                    chat_title: "💡 Digital Assistant",
+                    chat_persona_prompt: "I am a...",
+                    persona_tourism: "Tourism Operator",
+                    persona_student: "Student",
+                    persona_artisan: "Artisan"
+                },
+                hi: {
+                    nav_title: "पहाड़ी डिजिटल साथी",
+                    nav_home: "होम",
+                    nav_guides: "सभी गाइड्स",
+                    nav_about: "संस्थापकों के बारे में",
+                    nav_contact: "संपर्क",
+                    hero_title: "डिजिटल देवभूमि, प्रगति की ओर",
+                    hero_subtitle: "शिवांश गुप्ता और शिवम पांडे द्वारा उत्तराखंड के लोगों को सरल टेक्नोलॉजी गाइड्स के साथ आगे बढ़ने में मदद करने के लिए एक परियोजना।",
+                    hero_button: "गाइड्स देखें",
+                    about_title: "संस्थापकों के बारे में",
+                    about_text: "देहरादून के निवासी शिवांश गुप्ता और शिवम पांडे ने उत्तराखंड में प्रौद्योगिकी के अंतर को पाटने के लिए 'पहाड़ी डिजिटल साथी' की शुरुआत की। राज्य के लोगों की immense क्षमता को देखते हुए, उन्होंने स्थानीय कारीगरों, पर्यटन ऑपरेटरों, किसानों और छात्रों को सशक्त बनाने के लिए आसान, सुलभ और प्रासंगिक डिजिटल उपकरण प्रदान करने के लिए इस मंच को विकसित किया, जिससे उन्हें अवसरों की एक विस्तृत दुनिया से जुड़ने में मदद मिली।",
+                    guides_title: "सभी गाइड्स",
+                    guides_subtitle: "गाइड्स को फ़िल्टर करने के लिए एक श्रेणी चुनें।",
+                    filter_all: "सभी",
+                    filter_tourism: "पर्यटन",
+                    filter_artisan: "कारीगर",
+                    filter_citizen: "नागरिक",
+                    filter_student: "छात्र",
+                    contact_title: "संपर्क करें",
+                    contact_subtitle: "कोई प्रश्न है या किसी भिन्न विषय पर गाइड चाहिए? हमें बताएं!",
+                    contact_name_placeholder: "आपका नाम",
+                    contact_email_placeholder: "आपका ईमेल",
+                    contact_message_placeholder: "आपका संदेश",
+                    contact_button: "संदेश भेजें",
+                    footer_credit: "एक प्रोजेक्ट शिवांश गुप्ता और शिवम पांडे द्वारा",
+                    view_guide_button: "गाइड देखें",
+                    modal_step: "स्टेप",
+                    chat_title: "💡 डिजिटल सहायक",
+                    chat_persona_prompt: "मैं एक...",
+                    persona_tourism: "पर्यटन संचालक",
+                    persona_student: "छात्र",
+                    persona_artisan: "कारीगर"
+                }
+            };
+
+            const guides = [{
+                id: 1,
+                category: 'tourism',
+                videoId: 'w8FImzCmjYo',
+                title_en: 'List Homestay on Tourism Website',
+                title_hi: 'टूरिज्म वेबसाइट पर होमस्टे लिस्ट करें',
+                steps_en: ['Visit the Uttarakhand Tourism official website.', 'Find the "Register Homestay" link.', 'Fill out the form with your property details and photos.', 'Submit for approval and get listed.'],
+                steps_hi: ['उत्तराखंड पर्यटन की आधिकारिक वेबसाइट पर जाएं।', '"होमस्टे रजिस्टर करें" लिंक ढूंढें।', 'अपनी संपत्ति के विवरण और तस्वीरों के साथ फॉर्म भरें।', 'अनुमोदन के लिए सबमिट करें और सूचीबद्ध हो जाएं।']
+            }, {
+                id: 2,
+                category: 'tourism',
+                videoId: 'WmXNia3dB_I',
+                title_en: 'Accept UPI Payments',
+                title_hi: 'UPI पेमेंट स्वीकार करें',
+                steps_en: ['Download a business app like "Paytm Business".', 'Link your bank account securely.', 'Find and print your unique QR code.', 'Get instant notifications for payments received.'],
+                steps_hi: ['"Paytm Business" जैसा व्यावसायिक ऐप डाउनलोड करें।', 'अपने बैंक खाते को सुरक्षित रूप से लिंक करें।', 'अपना अनूठा QR कोड ढूंढें और प्रिंट करें।', 'प्राप्त भुगतानों के लिए तत्काल सूचनाएं प्राप्त करें।']
+            }, {
+                id: 3,
+                category: 'citizen',
+                videoId: 'lPN18rqR6aY',
+                title_en: 'Get Weather & Landslide Alerts',
+                title_hi: 'मौसम और भूस्खलन अलर्ट पाएं',
+                steps_en: ['Download the "Damini" or "Meghdoot" app.', 'Register with your location for localized alerts.', 'Receive early warnings for heavy rain or lightning.', 'Check official disaster management websites for landslide info.'],
+                steps_hi: ['"दामिनी" या "मेघदूत" ऐप डाउनलोड करें।', 'स्थानीय अलर्ट के लिए अपने स्थान के साथ पंजीकरण करें।', 'भारी बारिश या बिजली के लिए प्रारंभिक चेतावनी प्राप्त करें।', 'भूस्खलन की जानकारी के लिए आधिकारिक आपदा प्रबंधन वेबसाइट देखें।']
+            }, {
+                id: 4,
+                category: 'artisan',
+                videoId: 'CpKxaMB0-0E',
+                title_en: 'Sell Handicrafts Online',
+                title_hi: 'हस्तशिल्प ऑनलाइन बेचें',
+                steps_en: ['Visit the India Handmade Portal or a site like Etsy.', 'Register as a seller with your artisan card/ID.', 'Take clear photos of your products (e.g., Aipan art, woodcraft).', 'List your items with descriptions and prices.'],
+                steps_hi: ['इंडिया हैंडमेड पोर्टल या Etsy जैसी साइट पर जाएं।', 'अपने कारीगर कार्ड/आईडी के साथ विक्रेता के रूप में पंजीकरण करें।', 'अपने उत्पादों की स्पष्ट तस्वीरें लें (जैसे, ऐपण कला, लकड़ी की नक्काशी)।', 'विवरण और कीमतों के साथ अपने आइटम सूचीबद्ध करें।']
+            }, {
+                id: 5,
+                category: 'citizen',
+                videoId: 'RJ5WfCBwz7w',
+                title_en: 'Apply for Char Dham Yatra Pass',
+                title_hi: 'चार धाम यात्रा पास के लिए आवेदन करें',
+                steps_en: ['Visit the official Char Dham registration portal.', 'Create an account with your mobile number.', 'Add pilgrim details and upload required ID.', 'Download your Yatra registration letter.'],
+                steps_hi: ['आधिकारिक चार धाम पंजीकरण पोर्टल पर जाएं।', 'अपने मोबाइल नंबर से एक खाता बनाएं।', 'तीर्थयात्री का विवरण जोड़ें और आवश्यक आईडी अपलोड करें।', 'अपना यात्रा पंजीकरण पत्र डाउनलोड करें।']
+            }, {
+                id: 6,
+                category: 'student',
+                videoId: 'CPDO7KeI3VM',
+                title_en: 'Use DIKSHA for e-Learning',
+                title_hi: 'ई-लर्निंग के लिए DIKSHA का उपयोग करें',
+                steps_en: ['Download the "DIKSHA" app.', 'Select your role as "Student" and your board/class.', 'Browse subjects to find videos and e-books.', 'Scan QR codes in your textbook for related content.'],
+                steps_hi: ['"DIKSHA" ऐप डाउनलोड करें।', '"छात्र" के रूप में अपनी भूमिका और अपना बोर्ड/कक्षा चुनें।', 'वीडियो और ई-पुस्तकें खोजने के लिए विषय ब्राउज़ करें।', 'संबंधित सामग्री के लिए अपनी पाठ्यपुस्तक में QR कोड स्कैन करें।']
+            }, {
+                id: 7,
+                category: 'citizen',
+                videoId: 'dJmLt0oNa34',
+                title_en: 'Check PM-KISAN Status',
+                title_hi: 'PM-KISAN स्टेटस जांचें',
+                steps_en: ['Visit the official PM-KISAN website.', 'Click on "Know Your Status".', 'Enter your registration number or mobile number.', 'View your payment status and details.'],
+                steps_hi: ['आधिकारिक PM-KISAN वेबसाइट पर जाएं।', '"अपना स्टेटस जानें" पर क्लिक करें।', 'अपना पंजीकरण नंबर या मोबाइल नंबर दर्ज करें।', 'अपनी भुगतान स्थिति और विवरण देखें।']
+            }, {
+                id: 8,
+                category: 'student',
+                videoId: 'I3bv2Txg8l0',
+                title_en: 'Find Government Jobs',
+                title_hi: 'सरकारी नौकरियां खोजें',
+                steps_en: ['Visit a website like "Sarkari Result".', 'Look for the "Latest Jobs" section.', 'Click on a job to read the details and eligibility.', 'Follow the link to apply online.'],
+                steps_hi: ['"सरकारी रिजल्ट" जैसी वेबसाइट पर जाएं।', '"नवीनतम नौकरियां" अनुभाग देखें।', 'विवरण और पात्रता पढ़ने के लिए नौकरी पर क्लिक करें।', 'ऑनलाइन आवेदन करने के लिए लिंक का पालन करें।']
+            }, {
+                id: 9,
+                category: 'citizen',
+                videoId: 'wO5g20i7cEM',
+                title_en: 'Apply for Health Card (ABHA)',
+                title_hi: 'स्वास्थ्य कार्ड (ABHA) के लिए आवेदन करें',
+                steps_en: ['Visit the official ABHA website.', 'Choose to generate ID via Aadhaar or Driving License.', 'Complete the OTP verification.', 'Your digital health card is created instantly.'],
+                steps_hi: ['आधिकारिक ABHA वेबसाइट पर जाएं।', 'आधार या ड्राइविंग लाइसेंस के माध्यम से आईडी बनाने का विकल्प चुनें।', 'ओटीपी सत्यापन पूरा करें।', 'आपका डिजिटल स्वास्थ्य कार्ड तुरंत बन जाता है।']
+            }, {
+                id: 10,
+                category: 'citizen',
+                videoId: 'i_iMAp5V_X4',
+                title_en: 'Get an e-Pass for State Travel',
+                title_hi: 'राज्य यात्रा के लिए ई-पास प्राप्त करें',
+                steps_en: ['Visit the Dehradun Smart City portal.', 'Find the "e-Pass" or "Registration" link.', 'Fill in your travel and personal details.', 'Download the generated e-Pass for your journey.'],
+                steps_hi: ['देहरादून स्मार्ट सिटी पोर्टल पर जाएं।', '"ई-पास" या "पंजीकरण" लिंक ढूंढें।', 'अपनी यात्रा और व्यक्तिगत विवरण भरें।', 'अपनी यात्रा के लिए उत्पन्न ई-पास डाउनलोड करें।']
+            }, ];
+
+            document.addEventListener('DOMContentLoaded', () => {
+                let currentLang = 'en';
+                const guideGallery = document.getElementById('guide-gallery');
+                const languageToggle = document.getElementById('language-toggle');
+                const filterBtns = document.querySelectorAll('.filter-btn');
+                const modal = document.getElementById('guide-modal');
+                const closeModalBtn = document.getElementById('close-modal');
+                const modalBackdrop = document.querySelector('.modal-backdrop');
+                const modalVideoContainer = document.getElementById('modal-video-container');
+                const assistantToggleBtn = document.getElementById('assistant-toggle-btn');
+                const chatModal = document.getElementById('chat-modal');
+                const closeChatBtn = document.getElementById('close-chat-btn');
+                const chatBox = document.getElementById('chat-box');
+                const chatInput = document.getElementById('chat-input');
+                const chatSendBtn = document.getElementById('chat-send-btn');
+                const personaBtns = document.querySelectorAll('.persona-btn');
+                let activePersona = 'tourism';
+                let chatHistory = [];
+
+                async function callGeminiAPI(prompt) {
+                    const apiKey = "AIzaSyAFsniB5Ke322XCc17vMa6cDWsHUmQomUE";
+                    // Shivam needs to add their API key here
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                    chatHistory.push({
+                        role: "user",
+                        parts: [{
+                            text: prompt
+                        }]
+                    });
+                    const payload = {
+                        contents: chatHistory
+                    };
+                    try {
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(payload)
+                        });
+                        if (!response.ok)
+                            throw new Error(`API error: ${response.statusText}`);
+                        const result = await response.json();
+                        const text = result.candidates[0].content.parts[0].text;
+                        chatHistory.push({
+                            role: "model",
+                            parts: [{
+                                text: text
+                            }]
+                        });
+                        return text;
+                    } catch (error) {
+                        console.error("Gemini API call failed:", error);
+                        return "Sorry, I'm having trouble connecting. Please try again later.";
+                    }
+                }
+
+                function addMessageToChat(message, sender) {
+                    const bubble = document.createElement('div');
+                    bubble.className = `w-fit max-w-xs md:max-w-sm rounded-lg px-4 py-2 mb-2 ${sender === 'user' ? 'chat-bubble-user self-end' : 'chat-bubble-ai self-start'}`;
+                    bubble.textContent = message;
+                    chatBox.appendChild(bubble);
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                }
+
+                async function handleSendMessage() {
+                    const userInput = chatInput.value.trim();
+                    if (!userInput)
+                        return;
+                    addMessageToChat(userInput, 'user');
+                    chatInput.value = '';
+                    addMessageToChat('Thinking...', 'ai-loading');
+                    const personaPrompts = {
+                        tourism: "You are a helpful assistant for a homestay or small tourism operator in Uttarakhand, India. Provide practical advice.",
+                        student: "You are a friendly tutor for a student in Uttarakhand, India. Explain concepts clearly and simply.",
+                        artisan: "You are an advisor for a local artisan in Uttarakhand, India. Provide tips on selling crafts and reaching customers."
+                    };
+                    const fullPrompt = `${personaPrompts[activePersona]} The user's question is: ${userInput}`;
+                    const aiResponse = await callGeminiAPI(fullPrompt);
+                    const loadingBubble = chatBox.querySelector('.chat-bubble-ai:last-child');
+                    if (loadingBubble && loadingBubble.textContent === 'Thinking...')
+                        loadingBubble.remove();
+                    addMessageToChat(aiResponse, 'ai');
+                }
+
+                assistantToggleBtn.addEventListener('click', () => chatModal.classList.toggle('hidden'));
+                closeChatBtn.addEventListener('click', () => chatModal.classList.add('hidden'));
+                chatSendBtn.addEventListener('click', handleSendMessage);
+                chatInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter')
+                        handleSendMessage();
+                }
+                );
+
+                personaBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        personaBtns.forEach(b => {
+                            b.classList.remove('bg-slate-800', 'text-white');
+                            b.classList.add('bg-slate-200', 'text-slate-700');
+                        }
+                        );
+                        btn.classList.add('bg-slate-800', 'text-white');
+                        activePersona = btn.dataset.persona;
+                        chatHistory = [];
+                        chatBox.innerHTML = '';
+                    }
+                    );
+                }
+                );
+
+                function populateGuides(filter='all') {
+                    guideGallery.innerHTML = '';
+                    const filteredGuides = filter === 'all' ? guides : guides.filter(g => g.category === filter);
+                    filteredGuides.forEach(guide => {
+                        const card = document.createElement('div');
+                        const title = currentLang === 'en' ? guide.title_en : guide.title_hi;
+                        const categoryKey = `filter_${guide.category}`;
+                        const categoryText = languageData[currentLang][categoryKey] || guide.category;
+                        card.className = 'guide-card h-48 rounded-lg shadow p-6 flex flex-col justify-end text-white relative overflow-hidden';
+                        card.style.backgroundImage = `url('https://placehold.co/600x400/334155/ffffff?text=${encodeURIComponent(guide.title_en)}')`;
+                        card.innerHTML = `
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                        <div class="relative z-10">
+                            <span class="text-xs font-bold uppercase text-orange-400">${categoryText}</span>
+                            <h3 class="text-lg font-bold mt-1">${title}</h3>
+                        </div>
+                        <button class="view-guide-btn absolute inset-0" data-guide-id="${guide.id}"></button>
+                    `;
+                        guideGallery.appendChild(card);
+                    }
+                    );
+                    addModalEventListeners();
+                }
+
+                function changeLanguage(lang) {
+                    currentLang = lang;
+                    document.documentElement.lang = lang;
+                    document.querySelectorAll('[data-key]').forEach(el => {
+                        const key = el.getAttribute('data-key');
+                        if (languageData[lang][key])
+                            el.textContent = languageData[lang][key];
+                    }
+                    );
+                    document.querySelectorAll('[data-key-placeholder]').forEach(el => {
+                        const key = el.getAttribute('data-key-placeholder');
+                        if (languageData[lang][key])
+                            el.placeholder = languageData[lang][key];
+                    }
+                    );
+                    const activeFilter = document.querySelector('.filter-btn.bg-slate-800').dataset.filter;
+                    populateGuides(activeFilter);
+                }
+
+                function openModal(guideId) {
+                    const guide = guides.find(g => g.id == guideId);
+                    if (!guide)
+                        return;
+                    const title = currentLang === 'en' ? guide.title_en : guide.title_hi;
+                    const steps = currentLang === 'en' ? guide.steps_en : guide.steps_hi;
+                    document.getElementById('modal-title').textContent = title;
+                    if (guide.videoId) {
+                        modalVideoContainer.innerHTML = `<iframe class="w-full h-full rounded-lg" src="https://www.youtube.com/embed/${guide.videoId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+                    } else {
+                        modalVideoContainer.innerHTML = `<img src="https://placehold.co/1280x720/d1fae5/14532d?text=Video+Not+Available" alt="Video placeholder" class="w-full rounded-lg bg-slate-200">`;
+                    }
+                    const stepsContainer = document.getElementById('modal-steps');
+                    stepsContainer.innerHTML = '';
+                    steps.forEach( (step, index) => {
+                        stepsContainer.innerHTML += `<div class="flex items-start"><div class="flex-shrink-0 bg-slate-800 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold mr-4">${index + 1}</div><div><h4 class="font-bold text-lg">${languageData[currentLang].modal_step} ${index + 1}</h4><p class="text-slate-600">${step}</p></div></div>`;
+                    }
+                    );
+                    modal.classList.remove('hidden');
+                }
+
+                function closeModal() {
+                    modal.classList.add('hidden');
+                    modalVideoContainer.innerHTML = '';
+                }
+
+                function addModalEventListeners() {
+                    document.querySelectorAll('.view-guide-btn').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            openModal(btn.dataset.guideId);
+                        }
+                        );
+                    }
+                    );
+                }
+
+                languageToggle.addEventListener('click', () => {
+                    changeLanguage(currentLang === 'en' ? 'hi' : 'en');
+                }
+                );
+
+                filterBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        filterBtns.forEach(b => {
+                            b.classList.remove('bg-slate-800', 'text-white');
+                            b.classList.add('bg-white', 'text-slate-700', 'border', 'border-slate-200');
+                        }
+                        );
+                        btn.classList.add('bg-slate-800', 'text-white');
+                        btn.classList.remove('bg-white', 'text-slate-700', 'border', 'border-slate-200');
+                        populateGuides(btn.dataset.filter);
+                    }
+                    );
+                }
+                );
+
+                closeModalBtn.addEventListener('click', closeModal);
+                modalBackdrop.addEventListener('click', closeModal);
+
+                changeLanguage('en');
+            }
+            );
+        </script>
+    </body>
+</html>
